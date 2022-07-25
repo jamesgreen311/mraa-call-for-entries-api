@@ -457,15 +457,20 @@ function getOpenCalls(param) {
     const cfeTables = getCFETables()
     const cfeOpenCalls = connect(CFE_ID).getSheetByName(cfeTables.opencalls.name)
     const cfeOpenCallsSchema = cfeTables.opencalls.schema
-    //const idPos = cfeOpenCallsSchema.id.colToIndex()
     const startRow = cfeTables.opencalls.headers + 1
     const startCol = 1
     const data = cfeOpenCalls
         .getRange(startRow,
             startCol,
-            cfeOpenCalls.getLastRow() - startRow,
+            cfeOpenCalls.getLastRow() - cfeTables.opencalls.headers,
             cfeOpenCalls.getLastColumn())
         .getDisplayValues()
 
-    return data
+    let opencall = []
+    if (param === 'newest') {
+        opencall = data[data.length-1]
+    } else {
+        opencall = data[0]
+    }
+    return opencall
 }
