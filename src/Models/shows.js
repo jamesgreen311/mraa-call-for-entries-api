@@ -467,10 +467,12 @@ function getOpenCalls(param) {
         .getDisplayValues()
 
     let opencall = []
-    if (param === 'newest') {
-        opencall = data[data.length-1]
-    } else {
+    if (!param || param === 'oldest') {
         opencall = data[0]
+    } else {
+        // filter by id
+        opencall = data.filter( d => d[1]===param)[0] // flatten the two dimensional array
     }
-    return opencall
+    
+    return (opencall?opencall:[])
 }

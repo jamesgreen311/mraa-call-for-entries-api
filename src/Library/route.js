@@ -7,7 +7,10 @@ const ROUTES = {
 ROUTES.path("opencalls", getOpenCalls)
 
 function doGet(e) {
-    let result = route(e.parameter['q'])
+    const path = e.parameter['q']
+    const id = e.parameter['id']
+    let result = route(path, id)
+
     let response = JSON.stringify(result)
     
     return ContentService
@@ -15,7 +18,8 @@ function doGet(e) {
         .setMimeType(ContentService.MimeType.JSON)
 }
 
-function route(path) {
-    let result = ROUTES[path]()
+function route(path, id) {
+    let result = ROUTES[path](id)
     return result
 }
+
