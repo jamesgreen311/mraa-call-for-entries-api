@@ -5,6 +5,7 @@ const ROUTES = {
 }
 
 ROUTES.path("opencalls", getOpenCalls)
+ROUTES.path("member", getMemberByEmail)
 
 function doGet(e) {
     const path = e.parameter['q']

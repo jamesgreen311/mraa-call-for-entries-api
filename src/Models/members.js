@@ -1,8 +1,3 @@
-/* const wsMembers = connect(membersDirectoryId).getSheetByName("Member Directory");
-const memberInfo = getMemberInfo();
-const exhibtingMembers = getExhibitingMembers();
-const activeExhibitingMembers = getActiveExhibitingMembers(); */
-
 function getMemberTables () {
     return {
         "directory" : {
@@ -55,25 +50,6 @@ function getExhibitingMembers() {
 }
 
 /**
- * @param none
- * @returns [] array of all active exhibiting members information
- * 
- * Member information array:
- *  email
- *  first name
- *  last name
- *  status
- *  phone number
- *  membership type
- */
-/* function getActiveExhibitingMembers() {
-    let activeExhibitingMembers = memberInfo.filter(function (e) {
-        return e[5].toLowerCase() === "exhibiting" && e[3].toLowerCase() === "active";
-    });
-    return activeExhibitingMembers;  
-} */
-
-/**
  * Gets six columns from the membership spreadsheet. All columns are combined
  * into one array for each member
  * @param string member email
@@ -95,25 +71,8 @@ function getMemberByEmail(email) {
         .getDisplayValues()
 
     const member = data.filter(m => m[emailPos] === email)[0]
-    return member
+    return (member?member:[])
 
-/*     let lastRow = wsMembers.getLastRow();
-    let firstRow = 3; // Assumes two header rows
-    let memberInfoList = wsMembers.getRangeList(['A'+firstRow+':C'+lastRow, 
-      'E'+firstRow+':E'+lastRow, 
-      'K'+firstRow+':K'+lastRow, 
-      'M'+firstRow+':M'+lastRow]); 
-    let ranges = memberInfoList.getRanges();
-    let colEmailName = ranges[0].getValues();
-    let colStatus = ranges[1].getValues();
-    let colPhone = ranges[2].getValues();
-    let colMembership = ranges[3].getValues();
-    let colCombined = [];
-
-    for (x=0; x<ranges[0].getValues().length; x++) {
-      colCombined.push([...colEmailName[x], ...colStatus[x], ...colPhone[x], ...colMembership[x]]);
-    }
-    return colCombined;  */
 }
 
 /**
