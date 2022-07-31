@@ -476,3 +476,49 @@ function getOpenCalls(param) {
     
     return (opencall?opencall:[])
 }
+
+/**
+ * Get all uploads for an event (by title) for an artist
+ * @param {string} evtTitle Event Title
+ * @param {string} email Artist Email
+ * @returns {string}
+ */
+ function getArtistUploads(email, event, evt="title") {
+    const cfeTables = getCFETables()
+    const cfeExhibits = connect(CFE_ID).getSheetByName(cfeTables.exhibits.name)
+    const cfeExhibitsSchema = cfeTables.exhibits.schema
+    const evtTitlePos = cfeExhibitsSchema.eventtitle.colToIndex()
+    const evtIdPos = cfeExhibitsSchema.eventid.colToIndex()
+    const emailPos = cfeExhibitsSchema.email.colToIndex()
+    const filenamePos = cfeExhibitsSchema.filename.colToIndex()
+    const timestampPos = cfeExhibitsSchema.timestamp.colToIndex()
+    const startRow = cfeTables.exhibits.headers + 1
+    const startCol = 1
+    const data = cfeExhibits
+        .getRange(
+            startRow,
+            startCol,
+            cfeExhibits.getLastRow() - startRow,
+            cfeExhibits.getLastColumn()
+        ).getDisplayValues()
+
+    const eventPos = evt==="id"?evtIdPos:evtTitlePos
+
+    const uploads = data.filter(function(r) {
+        let test1 = r[eventPos].toLowerCase() === event.toLowerCase()
+        let test2 = r[emailPos].toLowerCase() === email.toLowerCase()
+        return (test1 && test2)
+    })
+
+    let compactUploads = []
+    uploads.forEach(r => {
+        compactUploads.push(
+            [r[filenamePos], 
+            r[timestampPos]]            
+        )
+    })
+    return compactUploads
+
+    // stringify not working as intended when passed back to the client
+    //return JSON.stringify(uploads.map(r => r[DataColMap.fileName-1]))
+}
