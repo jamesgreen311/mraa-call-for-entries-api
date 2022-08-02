@@ -7,10 +7,15 @@ function testGetArtistUploadsRunAll() {
 
 function testGetArtistUploads1(expected, verbose) {
     const artistId = "bowles3@gmail.com"
-    const eventId = "4E011C4"
+    const event = "4E011C4"
     const evtKey = "id"
-    const d = getArtistUploads(artistId, eventId, evtKey)
-    const t = `1 - Upload History for ${eventId} by ${artistId}, get by Event Id`
+    const params = {
+        'artist' : artistId,
+        'event' : event,
+        'key' : evtKey
+    }
+    const d = getArtistUploads(JSON.stringify(params))
+    const t = `1 - Upload History for ${params.event} by ${params.artist}, get by Event Id`
     
     if (verbose) {
         console.log("Test %s: %s ", t, d)
@@ -25,11 +30,16 @@ function testGetArtistUploads1(expected, verbose) {
 }
 
 function testGetArtistUploads2(expected, verbose) {
-    const eventTitle = "TESTSHOW-ONLYATEST"
+    const event = "TESTSHOW-ONLYATEST"
     const artistId = "bowles3@gmail.com"
     const evtKey = "title"
-    const d = getArtistUploads(artistId, eventTitle, evtKey)
-    const t = `2 - Upload History for ${eventTitle} by ${artistId}, get by Event Title`
+    const params = {
+        "artist" : artistId,
+        "event" : event,
+        "key" : evtKey
+    }
+    const d = getArtistUploads(JSON.stringify(params))
+    const t = `2 - Upload History for ${params.event} by ${params.artist}, get by Event Title`
     
     if (verbose) {
         console.log("Test %s: %s ", t, d)
@@ -44,10 +54,14 @@ function testGetArtistUploads2(expected, verbose) {
 }
 
 function testGetArtistUploads3(expected, verbose) {
-    const eventTitle = "TESTSHOW-ONLYATEST"
+    const event = "TESTSHOW-ONLYATEST"
     const artistId = "bowles3@gmail.com"
-    const d = getArtistUploads(artistId, eventTitle)
-    const t = `3 - Upload History for ${eventTitle} by ${artistId}, default to title `
+    const params = {
+        'artist' : artistId,
+        'event' : event
+    }
+    const d = getArtistUploads(JSON.stringify(params))
+    const t = `3 - Upload History for ${params.event} by ${params.artist}, default to title `
     
     if (verbose) {
         console.log("Test %s: %s ", t, d)

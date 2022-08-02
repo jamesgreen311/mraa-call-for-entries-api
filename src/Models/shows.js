@@ -483,7 +483,8 @@ function getOpenCalls(param) {
  * @param {string} email Artist Email
  * @returns {string}
  */
- function getArtistUploads(email, event, evt="title") {
+ //function getArtistUploads(email, event, evt="title") {
+function getArtistUploads(params) {
     const cfeTables = getCFETables()
     const cfeExhibits = connect(CFE_ID).getSheetByName(cfeTables.exhibits.name)
     const cfeExhibitsSchema = cfeTables.exhibits.schema
@@ -501,12 +502,13 @@ function getOpenCalls(param) {
             cfeExhibits.getLastRow() - startRow,
             cfeExhibits.getLastColumn()
         ).getDisplayValues()
-
+    const p = JSON.parse(params)
+    const evt = p.key?p.key:"title" // default to title if event type not passed
     const eventPos = evt==="id"?evtIdPos:evtTitlePos
 
     const uploads = data.filter(function(r) {
-        let test1 = r[eventPos].toLowerCase() === event.toLowerCase()
-        let test2 = r[emailPos].toLowerCase() === email.toLowerCase()
+        let test1 = r[eventPos].toLowerCase() === p["event"].toLowerCase()
+        let test2 = r[emailPos].toLowerCase() === p["artist"].toLowerCase()
         return (test1 && test2)
     })
 
