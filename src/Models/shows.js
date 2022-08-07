@@ -493,13 +493,14 @@ function getArtistUploads(params) {
     const emailPos = cfeExhibitsSchema.email.colToIndex()
     const filenamePos = cfeExhibitsSchema.filename.colToIndex()
     const timestampPos = cfeExhibitsSchema.timestamp.colToIndex()
-    const startRow = cfeTables.exhibits.headers + 1
+    const headerRows = cfeTables.exhibits.headers
+    const startRow = headerRows + 1
     const startCol = 1
     const data = cfeExhibits
         .getRange(
             startRow,
             startCol,
-            cfeExhibits.getLastRow() - startRow,
+            cfeExhibits.getLastRow() - headerRows,
             cfeExhibits.getLastColumn()
         ).getDisplayValues()
     const p = JSON.parse(params)
