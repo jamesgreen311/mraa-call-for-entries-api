@@ -98,12 +98,12 @@ function getCFETables() {
             "schema" : {
                 "cfeclosedate" : "a",
                 "id" : "b",
-                "name" : "c"
+                "name" : "c",
+                "maxentries" : "d",
+                "entryfee" : "e"
             }
         }
-    
     }
-
 }
 
 /**
@@ -313,7 +313,7 @@ function getShowIdByName(name) {
                 startCol, 
                 cfeExhibits.getLastRow() - startRow, 
                 1
-                )
+            )
         .getDisplayValues()
 
     const filteredData = data.map( d => d[0])
@@ -457,12 +457,13 @@ function getOpenCalls(param) {
     const cfeTables = getCFETables()
     const cfeOpenCalls = connect(CFE_ID).getSheetByName(cfeTables.opencalls.name)
     const cfeOpenCallsSchema = cfeTables.opencalls.schema
-    const startRow = cfeTables.opencalls.headers + 1
+    const headerRows = cfeTables.opencalls.headers
+    const startRow = headerRows + 1
     const startCol = 1
     const data = cfeOpenCalls
         .getRange(startRow,
             startCol,
-            cfeOpenCalls.getLastRow() - cfeTables.opencalls.headers,
+            cfeOpenCalls.getLastRow() - headerRows,
             cfeOpenCalls.getLastColumn())
         .getDisplayValues()
 
