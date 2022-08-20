@@ -25,3 +25,36 @@ function route(path, id) {
     return result
 }
 
+function doPost(request) {
+    const body = request.postData.contents;
+    const bodyJSON = JSON.parse(body)
+
+    const fileid = saveImage(bodyJSON.eventid, bodyJSON.image)
+    const member = "Yes"
+    const availability = ""
+    const hidden = ""
+    const fullname = bodyJSON.firstname + " " + bodyJSON.lastname
+    const row = [
+      bodyJSON.eventid,
+      bodyJSON.eventtitle,
+      bodyJSON.firstname,
+      bodyJSON.lastname,
+      bodyJSON.email,
+      bodyJSON.phone,
+      bodyJSON.worktitle,
+      bodyJSON.medium,
+      bodyJSON.width,
+      bodyJSON.height,
+      bodyJSON.price,
+      bodyJSON.filename,
+      fileid,
+      member,
+      availability,
+      hidden,
+      fullname,
+      bodyJSON.timestamp
+    ]
+
+    const submission = addSubmission(row)
+    return ContentService.createTextOutput(submission)
+}

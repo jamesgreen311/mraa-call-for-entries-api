@@ -100,7 +100,8 @@ function getCFETables() {
                 "id" : "b",
                 "name" : "c",
                 "maxentries" : "d",
-                "entryfee" : "e"
+                "entryfee" : "e",
+                "imagefolderid" : "f"
             }
         }
     }
@@ -525,4 +526,17 @@ function getArtistUploads(params) {
 
     // stringify not working as intended when passed back to the client
     //return JSON.stringify(uploads.map(r => r[DataColMap.fileName-1]))
+}
+
+function addSubmission(row) {
+    const cfeTables = getCFETables()
+    const cfeExhibits = connect(CFE_ID).getSheetByName(cfeTables.exhibits.name)
+    
+    return cfeExhibits.appendRow(row) 
+}
+
+function saveImage(evtId, blob) {
+    const imageFolder = getShow(evtId).imageFolderId
+    const blob = Utilities.newBlob(blob, blob.type, imageFolder)
+    
 }
